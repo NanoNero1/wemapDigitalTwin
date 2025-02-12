@@ -1,6 +1,6 @@
-<center>
-<img src="https://getwemap.com/images/logo-wemap.svg" width="32%"/>
-</center>
+<p align="center">
+  <img src="https://getwemap.com/images/logo-wemap.svg" width="32%"/>
+</p>
 
 # Running the code
 
