@@ -56,7 +56,13 @@ def trainModel():
 
     # Run training command
     trainCommand = f"ns-train nerfacto --data ./hopeWorks --pipeline.model.camera-optimizer.mode off" 
-    commandParse(trainCommand)
+
+    try:
+        commandParse(trainCommand)
+    except:
+        print('Training run failed, retrying')
+        commandParse(trainCommand)
+        
 
 
 
