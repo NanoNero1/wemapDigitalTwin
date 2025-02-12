@@ -1,10 +1,19 @@
-<img src="https://user-images.githubusercontent.com/3310961/194017985-ade69503-9d68-46a2-b518-2db1a012f090.gif" width="52%"/>
+<img src="https://getwemap.com/images/logo-wemap.svg" width="52%"/>
+
+# Running the code
+
+In order to run the pipeline, you need to specify the path where the data is stored.
+
+```bash
+python main.py C:\Users\Dimitri\Documents\wemap\pipeline\pipelineData\wemap-office-one-room-v1\wemap-office-one-room-v1
+```
+
 
 ### Known Problems:
 - sometimes you can run out of memory so it's best to run this alone and close other applications
 
 
 
-## To-do:
+### To-do:
 - if we already have the data processed, skip this step
 - list like *[process,train,render]*
