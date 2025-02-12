@@ -3,59 +3,60 @@ print('Hello world')
 import argparse
 import os
 import subprocess
+import shutil
+
+########################################################### PRACTICAL FUNCTIONS
 
 
+def main(args):
 
+    ##### Setup 
 
-def main(test):
-    print(test)
-
-if __name__ == '__main__':
-
-    parser = argparse.ArgumentParser()
-    #parser.add_argument("square", type=int,
-    #                help="display the square of a given number")
-
-    parser.add_argument("test")
-
-    parser.add_argument("dataPath")
-    args = parser.parse_args()
-
+    # Variables
+    dataPath = args.dataPath
     myOS = "windows"
     myPath = os.getcwd()
 
-    dataPath = ""
+    # Change the current directory
+    os.chdir(dataPath)
+
+    # Setup the necessary folders
+    folderDir = os.path.join(dataPath,'hopeWorks')
+    if os.path.exists(folderDir):
+        shutil.rmtree(folderDir)
+        os.makedirs(folderDir)
+    #commandParse("mkdir hopeWorks")
+
+    # Copies the 'sparse' folder. Might cause an error on Linux
+    shutil.copytree(os.path.join(dataPath,'sparse'), os.path.join(dataPath,'hopeWorks/sparse'))
+    
+
+    ##### Processing Data
+    processData()
+
+    ##### Training Model
+    trainModel()
+
+
+    ##### Rendering TODO
 
     print(myPath)
-
-    main(args.test)
-
-"""
-import argparse
-parser = argparse.ArgumentParser()
-parser.add_argument("echo", help="echo the string you use here")
-args = parser.parse_args()
-print(args.echo)
-"""
+    print(dataPath)
 
 
 def processData():
 
-    # setup the folders
-
     # TODO: remove blurred images
 
-    # TODO run process data command
+    # run process data command
     processDataCommand = f"ns-process-data images --verbose --skip-colmap --colmap-model-path sparse/0 --num-downscales 4 --data ./images --output-dir ./hopeWorks" 
-
-    #os.
-
-
-
-
+    commandParse(processDataCommand)
 
 def trainModel():
-    pass
+
+    # Run training command
+    trainCommand = f"ns-train nerfacto --data ./hopeWorks --pipeline.model.camera-optimizer.mode off" 
+    commandParse(trainCommand)
 
 
 
@@ -63,16 +64,31 @@ def renderCamera():
     pass
 
 
-
-# Utility Functions
+########################################################### UTILITY FUNCTIONS
 
 def commandParse(commandString):
+    # Usally for running nerfstudio commands
     commandList = commandString.split()
-    subprocess.call([c for c in commandList])
+    print(commandList)
+    subprocess.call(commandList,shell=True)
     #subprocess.call(["ls", "-l"])
 
 def commandRaw(commandString):
+    # Warning, don't use this unless necessary
     os.system(commandString)
+
+
+########################################################### ARGUMENT PARSER
+if __name__ == '__main__':
+
+    parser = argparse.ArgumentParser()
+    #parser.add_argument("square", type=int,
+    #                help="display the square of a given number")
+
+    parser.add_argument("dataPath")
+    args = parser.parse_args()
+
+    main(args)
 
 
 
