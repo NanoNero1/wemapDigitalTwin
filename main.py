@@ -2,6 +2,8 @@ print('Hello world')
 
 import argparse
 import os
+import subprocess
+
 
 
 
@@ -15,7 +17,16 @@ if __name__ == '__main__':
     #                help="display the square of a given number")
 
     parser.add_argument("test")
+
+    parser.add_argument("dataPath")
     args = parser.parse_args()
+
+    myOS = "windows"
+    myPath = os.getcwd()
+
+    dataPath = ""
+
+    print(myPath)
 
     main(args.test)
 
@@ -30,7 +41,40 @@ print(args.echo)
 
 def processData():
 
-    # run process command
+    # setup the folders
+
+    # TODO: remove blurred images
+
+    # TODO run process data command
+    processDataCommand = f"ns-process-data images --verbose --skip-colmap --colmap-model-path sparse/0 --num-downscales 4 --data ./images --output-dir ./hopeWorks" 
+
+    #os.
+
+
+
+
+
+def trainModel():
+    pass
+
+
+
+def renderCamera():
+    pass
+
+
+
+# Utility Functions
+
+def commandParse(commandString):
+    commandList = commandString.split()
+    subprocess.call([c for c in commandList])
+    #subprocess.call(["ls", "-l"])
+
+def commandRaw(commandString):
+    os.system(commandString)
+
+
 
 
 
