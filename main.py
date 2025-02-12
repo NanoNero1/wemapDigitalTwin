@@ -52,6 +52,9 @@ def processData():
     processDataCommand = f"ns-process-data images --verbose --skip-colmap --colmap-model-path sparse/0 --num-downscales 4 --data ./images --output-dir ./hopeWorks" 
     commandParse(processDataCommand)
 
+def clipTransfom():
+    pass
+
 def trainModel():
 
     # Run training command
