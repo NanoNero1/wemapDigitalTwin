@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="wemap_logo.png" width="22%"/>
+  <img src="https://getwemap.com/images/logo-wemap.svg" width="15%"/>
 </p>
 
 # Running the code
