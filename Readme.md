@@ -19,3 +19,17 @@ python main.py C:\Users\Dimitri\Documents\wemap\pipeline\pipelineData\wemap-offi
 ### To-do:
 - if we already have the data processed, skip this step
 - list like *[process,train,render]*
+
+- add a requirements file, explaining what libraries
+you need and how to set them up
+
+To fix out of CUDA memory:
+pip uninstall tinycudann
+git ninja install+...tinycuda...
+
+
+- add saving of the checkpoints,
+- log saying it will be saved to this path
+
+- one script to process&train
+- second script to visualize
