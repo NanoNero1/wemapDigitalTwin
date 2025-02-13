@@ -33,3 +33,17 @@ git ninja install+...tinycuda...
 
 - one script to process&train
 - second script to visualize
+
+
+### Visualization From Server Execution
+
+See the link
+
+https://wandb.ai/balbul/nerfstudio-project
+
+Feel free to check loss function and output metrics curve on wandb.
+
+You can see some samples of model performance in Section Eval Images
+
+
+
