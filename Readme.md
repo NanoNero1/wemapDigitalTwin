@@ -11,6 +11,14 @@ python main.py C:\Users\Dimitri\Documents\wemap\pipeline\pipelineData\wemap-offi
 ```
 
 
+## Step 1: Preprocessing, Collecting Masks and Inpainting
+
+## Step 2: Converting Data To Nerfstudio set
+
+## Step 3: 
+
+
+
 ### Known Problems:
 - sometimes you can run out of memory so it's best to run this alone and close other applications
 
@@ -33,3 +41,5 @@ git ninja install+...tinycuda...
 
 - one script to process&train
 - second script to visualize
+
+- pip install gsplat

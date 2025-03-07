@@ -12,6 +12,16 @@ def main(args):
 
     ##### Setup 
 
+
+    print(args)
+    print(args.dataPath)
+    
+
+    actions = args.actions.split(',')
+    print(actions)
+
+    error
+
     # Variables
     dataPath = args.dataPath
     myOS = "windows"
@@ -32,10 +42,12 @@ def main(args):
     
 
     ##### Processing Data
-    processData()
 
-    ##### Training Model
-    trainModel()
+    if 'process' in actions:
+        processData()
+
+        ##### Training Model
+        trainModel()
 
 
     ##### Rendering TODO
@@ -93,6 +105,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     #parser.add_argument("square", type=int,
     #                help="display the square of a given number")
+    #parser.add_argument("square", type=int,
+    #                help="display the square of a given number")
+
+    parser.add_argument("actions", help="which actions to carry out [process,train,test]",
+                    type=str)
 
     parser.add_argument("dataPath")
     args = parser.parse_args()
