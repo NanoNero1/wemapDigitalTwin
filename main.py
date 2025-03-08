@@ -4,6 +4,8 @@ import argparse
 import os
 import subprocess
 import shutil
+from splitTrainTest import splitData
+from utils import commandParse
 
 ########################################################### PRACTICAL FUNCTIONS
 
@@ -38,6 +40,8 @@ def main(args):
 
     if 'process' in actions:
         processData(dataPath)
+        splitData()
+        #error
 
     if 'train' in actions:
         ##### Training Model
@@ -74,6 +78,7 @@ def processData(dataPath):
 def clipTransfom():
     pass
 
+
 def trainModel():
 
     # Run training command
@@ -96,17 +101,6 @@ def renderCamera():
 
 
 ########################################################### UTILITY FUNCTIONS
-
-def commandParse(commandString):
-    # Usally for running nerfstudio commands
-    commandList = commandString.split()
-    #print(commandList)
-    subprocess.call(commandList,shell=True)
-    #subprocess.call(["ls", "-l"])
-
-def commandRaw(commandString):
-    # Warning, don't use this unless necessary
-    os.system(commandString)
 
 
 ########################################################### ARGUMENT PARSER
