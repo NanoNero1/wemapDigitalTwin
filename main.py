@@ -1,4 +1,4 @@
-print('Hello world')
+#print('Hello world')
 
 import argparse
 import os
@@ -18,9 +18,12 @@ def main(args):
     
 
     actions = args.actions.split(',')
-    print(actions)
 
-    error
+
+
+    #print(actions)
+
+    #error
 
     # Variables
     dataPath = args.dataPath
@@ -29,40 +32,44 @@ def main(args):
 
     # Change the current directory
     os.chdir(dataPath)
-
-    # Setup the necessary folders
-    folderDir = os.path.join(dataPath,'hopeWorks')
-    if os.path.exists(folderDir):
-        shutil.rmtree(folderDir)
-        os.makedirs(folderDir)
-    #commandParse("mkdir hopeWorks")
-
-    # Copies the 'sparse' folder. Might cause an error on Linux
-    shutil.copytree(os.path.join(dataPath,'sparse'), os.path.join(dataPath,'hopeWorks/sparse'))
     
 
     ##### Processing Data
 
     if 'process' in actions:
-        processData()
+        processData(dataPath)
 
+    if 'train' in actions:
         ##### Training Model
         trainModel()
 
 
     ##### Rendering TODO
 
-    print(myPath)
-    print(dataPath)
+    #print(myPath)
+    #print(dataPath)
 
 
-def processData():
+def processData(dataPath):
 
     # TODO: remove blurred images
 
-    # run process data command
-    processDataCommand = f"ns-process-data images --verbose --skip-colmap --colmap-model-path sparse/0 --num-downscales 4 --data ./images --output-dir ./hopeWorks" 
-    commandParse(processDataCommand)
+    # Setup the necessary folders
+    folderDir = os.path.join(dataPath,'digitalTwin')
+    if os.path.exists(folderDir):
+        print("#PIPELINE# digitalTwin folder already exists, skipping processing")
+        #shutil.rmtree(folderDir)
+    else:
+        commandParse("mkdir digitalTwin")
+        # Copies the 'sparse' folder. Might cause an error on Linux
+        shutil.copytree(os.path.join(dataPath,'sparse'), os.path.join(dataPath,'digitalTwin/sparse'))
+
+        # run process data command
+        processDataCommand = f"ns-process-data images --verbose --skip-colmap --colmap-model-path sparse/0 --data ./images --output-dir ./digitalTwin" 
+        
+        # TODO add masks?
+        
+        commandParse(processDataCommand)
 
 def clipTransfom():
     pass
@@ -70,13 +77,16 @@ def clipTransfom():
 def trainModel():
 
     # Run training command
-    trainCommand = f"ns-train nerfacto --data ./hopeWorks --pipeline.model.camera-optimizer.mode off" 
+    trainCommand = f"ns-train nerfacto --data ./digitalTwin --pipeline.model.camera-optimizer.mode off" 
 
-    try:
-        commandParse(trainCommand)
-    except:
-        print('Training run failed, retrying')
-        commandParse(trainCommand)
+
+    commandParse(trainCommand)
+
+    # try:
+        
+    # except:
+    #     print('Training run failed, retrying')
+    #     commandParse(trainCommand)
         
 
 
@@ -90,7 +100,7 @@ def renderCamera():
 def commandParse(commandString):
     # Usally for running nerfstudio commands
     commandList = commandString.split()
-    print(commandList)
+    #print(commandList)
     subprocess.call(commandList,shell=True)
     #subprocess.call(["ls", "-l"])
 
@@ -112,6 +122,10 @@ if __name__ == '__main__':
                     type=str)
 
     parser.add_argument("dataPath")
+
+    #parser.add_argument("outPath")
+
+
     args = parser.parse_args()
 
     main(args)

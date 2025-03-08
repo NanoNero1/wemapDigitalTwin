@@ -1,1 +1,8 @@
 python main.py C:\Users\Dimitri\Documents\wemap\pipeline\pipelineData\wemap-office-one-room-v1\wemap-office-one-room-v1
+
+Gambetta Datapath:
+C:\Users\Dimitri\Documents\wemap\pipeline\pipelineData\ratp-gambetta-pipeline\ratp-gambetta-sample-v2
+
+python main.py process C:\Users\Dimitri\Documents\wemap\pipeline\pipelineData\ratp-gambetta-pipeline\ratp-gambetta-sample-v2
+
+
