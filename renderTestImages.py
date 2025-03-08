@@ -77,7 +77,7 @@ def renderTestImages(modelName):
 
     print(data['frames'][4])
 
-    for idx,f in enumerate(data['frames'][:6]):
+    for idx,f in enumerate(data['frames']):
         getRenderFromPose(f['transform_matrix'],f['file_path'],device,pipeline,idx,modelName)
 
     print('IT WORKEDDD')
@@ -96,6 +96,11 @@ def getRenderFromPose(pose,path,device,pipeline,idx,modelName):
 
 
     #pose = [[0.0, 0.0, 0.0, 0.0],[0.0, 0.0, 0.0, 0.0],[float(idx),0.0, 0.0, 0.0],[0.0, 0.0, 0.0, 1.0]]
+
+    swapAxes = np.array([[1.0, 0.0, 0.0, 0.0],
+                         [0.0, 0.0, -1.0, 0.0],
+                         [0.0, 1.0, 0.0, 0.0],
+                         [0.0, 0.0, 0.0, 1.0]])
 
     import json
 
@@ -118,11 +123,12 @@ def getRenderFromPose(pose,path,device,pipeline,idx,modelName):
     #camera_to_worlds = torch.tensor(  np.array(pose[:-1]) ) .to(device)
     #camera_to_worlds=pose[:-1,:]
 
+    pose = swapAxes @ pose
     pose = dataMatrix @ pose
     pose[:3,3] *= dataScale
 
-    pose[:3,:3] = pose[:3,:3].T
-    pose[:3,3] =  -1*pose[:3,3] 
+    #pose[:3,:3] = pose[:3,:3].T
+    #pose[:3,3] =  -1*pose[:3,3] 
 
     #print('laaaaaaaaaaaaaaaa')
     #print(pose.shape)

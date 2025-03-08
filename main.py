@@ -46,7 +46,7 @@ def main(args):
 
     if 'train' in actions:
         ##### Training Model
-        trainModel()
+        trainModel(args.modelType)
 
     if 'eval' in actions:
         renderTestImages(args.modelName)
@@ -84,10 +84,12 @@ def clipTransfom():
     pass
 
 
-def trainModel():
+def trainModel(modelType):
 
-    # Run training command
-    trainCommand = f"ns-train nerfacto --data ./digitalTwin --pipeline.model.camera-optimizer.mode off" 
+    if modelType == None or 'nerfacto-basic':
+
+        # Run training command
+        trainCommand = f"ns-train nerfacto --data ./digitalTwin --pipeline.model.camera-optimizer.mode off" 
 
 
     commandParse(trainCommand)
@@ -121,6 +123,8 @@ if __name__ == '__main__':
                     type=str)
 
     parser.add_argument("dataPath")
+
+    parser.add_argument("--modelType", help="The type of model to train: nerfacto-basic,nerfacto-masked,depth-nerfacto-inpainted")
 
     parser.add_argument("--modelName", help="Name of the model in the outputs/digitalTwin/ folder. E.g. nerfacto/2025-03-08_200149")
 
