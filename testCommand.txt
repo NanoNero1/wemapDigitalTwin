@@ -5,4 +5,4 @@ C:\Users\Dimitri\Documents\wemap\pipeline\pipelineData\ratp-gambetta-pipeline\ra
 
 python main.py process C:\Users\Dimitri\Documents\wemap\pipeline\pipelineData\ratp-gambetta-pipeline\ratp-gambetta-sample-v2
 
-
+python main.py eval C:\Users\Dimitri\Documents\wemap\pipeline\pipelineData\ratp-gambetta-pipeline\ratp-gambetta-sample-v2 --modelName nerfacto/2025-03-08_200149

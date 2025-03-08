@@ -6,6 +6,7 @@ import subprocess
 import shutil
 from splitTrainTest import splitData
 from utils import commandParse
+from renderTestImages import renderTestImages
 
 ########################################################### PRACTICAL FUNCTIONS
 
@@ -46,6 +47,10 @@ def main(args):
     if 'train' in actions:
         ##### Training Model
         trainModel()
+
+    if 'eval' in actions:
+        renderTestImages(args.modelName)
+        #calculatPSNR
 
 
     ##### Rendering TODO
@@ -116,6 +121,8 @@ if __name__ == '__main__':
                     type=str)
 
     parser.add_argument("dataPath")
+
+    parser.add_argument("--modelName", help="Name of the model in the outputs/digitalTwin/ folder. E.g. nerfacto/2025-03-08_200149")
 
     #parser.add_argument("outPath")
 
