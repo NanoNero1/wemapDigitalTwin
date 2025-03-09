@@ -139,14 +139,14 @@ def getRenderFromPose(pose,path,device,pipeline,idx,modelName):
     #error
     camera_to_worlds=torch.tensor(pose).to(device)
 
-    print(camera_to_worlds.shape)
+    #print(camera_to_worlds.shape)
     #placeHolder = copy.deepcopy(camera_to_worlds[:,2])
     #camera_to_worlds[:,2] = camera_to_worlds[:,1]
     #camera_to_worlds[:,1] = placeHolder
 
     #print(camera_to_worlds)
 
-    print(camera_to_worlds.shape)
+    #print(camera_to_worlds.shape)
     
     # Create Cameras instance, define your camera intrinsics 
     cameras = Cameras(
@@ -172,8 +172,8 @@ def getRenderFromPose(pose,path,device,pipeline,idx,modelName):
 
     #output_image_path = os.path.join(output_dir, 'rendered_image.png')
     print(path[-15:-4])
-    print()
-    save_path = f"./digitalTwin/test_render/{modelName}/{path[-15:-4]}_testRendernew.png"
+    #print()
+    save_path = f"./digitalTwin/test_render/{modelName}/{path[-15:-4]}_testRender.png"
     #error
     
     output_image_pil.save(save_path)

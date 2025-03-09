@@ -14,22 +14,8 @@ from getMaskedTransform import getMaskedTransform
 
 def main(args):
 
-    ##### Setup 
-
-
-    print(args)
-    print(args.dataPath)
-    
-
-    actions = args.actions.split(',')
-
-
-
-    #print(actions)
-
-    #error
-
     # Variables
+    actions = args.actions.split(',')
     dataPath = args.dataPath
     myOS = "windows"
     myPath = os.getcwd()
@@ -43,21 +29,13 @@ def main(args):
     if 'process' in actions:
         processData(dataPath)
         splitData()
-        #error
 
     if 'train' in actions:
-        ##### Training Model
         trainModel(args.modelType)
 
     if 'eval' in actions:
         renderTestImages(args.modelName)
-        #calculatPSNR
-
-
-    ##### Rendering TODO
-
-    #print(myPath)
-    #print(dataPath)
+        #TODO calculatPSNR
 
 
 def processData(dataPath):
@@ -90,6 +68,14 @@ def resetTransformJSON():
     # Save original train_transforms.json
     shutil.copyfile(f"./digitalTwin/transform_jsons/transforms_train_og.json",
                     f"digitalTwin/transforms.json")
+    
+def resetImageFolder():
+    if os.path.isdir('./digitalTwin/images_original'):
+        # Switch Image folders
+        os.rename('./digitalTwin/images','./digitalTwin/images_inpainted')
+        os.rename('./digitalTwin/images_original','./digitalTwin/images')
+
+
 
 
 def trainModel(modelType):
@@ -98,27 +84,30 @@ def trainModel(modelType):
 
     if (modelType == None) or (modelType == 'nerfacto-basic'):
 
-        error
         resetTransformJSON()
+        resetImageFolder()
 
         # Run training command
         trainCommand = f"ns-train nerfacto --data ./digitalTwin --pipeline.model.camera-optimizer.mode off"
     elif modelType == 'nerfacto-masked':
 
         resetTransformJSON()
+        resetImageFolder()
 
-        # TODO-transform
+        # add the masks to the transform
         getMaskedTransform()
 
 
         # Masked nerfacto is actually the same command
         trainCommand = f"ns-train nerfacto --data ./digitalTwin --pipeline.model.camera-optimizer.mode off"
+    elif modelType == 'depth-nerfacto-inpainted':
 
+        # Switch Image folders
+        os.rename('./digitalTwin/images','./digitalTwin/images_original')
 
-
-        
-
-
+        os.rename('./digitalTwin/images_inpainted','./digitalTwin/images')
+    else:
+        print("Training method not found, please choose between: nerfacto-basic,nerfacto-masked,depth-nerfacto-inpainted")
 
     commandParse(trainCommand)
 
@@ -155,9 +144,6 @@ if __name__ == '__main__':
     parser.add_argument("--modelType", help="The type of model to train: nerfacto-basic,nerfacto-masked,depth-nerfacto-inpainted")
 
     parser.add_argument("--modelName", help="Name of the model in the outputs/digitalTwin/ folder. E.g. nerfacto/2025-03-08_200149")
-
-    #parser.add_argument("outPath")
-
 
     args = parser.parse_args()
 
