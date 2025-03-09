@@ -95,7 +95,7 @@ def getRenderFromPose(pose,path,device,pipeline,idx,modelName):
     #                             ]).to(device)
 
 
-    #camera_to_worlds = torch.tensor(np.array(pose[:-1])).to(device)
+    #camera_toF_worlds = torch.tensor(np.array(pose[:-1])).to(device)
 
 
     #pose = [[0.0, 0.0, 0.0, 0.0],[0.0, 0.0, 0.0, 0.0],[float(idx),0.0, 0.0, 0.0],[0.0, 0.0, 0.0, 1.0]]
