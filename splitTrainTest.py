@@ -93,6 +93,10 @@ def splitData():
     with open("./digitalTwin/transforms.json", "w") as outfile:
         outfile.write(json_object)
 
+    # Save original train_transforms.json
+    shutil.copyfile(f"digitalTwin/transforms.json",
+                        f"./digitalTwin/transform_jsons/transforms_train_og.json")
+
     # TODO rename folders
     os.rename("./digitalTwin/images","./digitalTwin/images_original")
     os.rename("./digitalTwin/train_folder","./digitalTwin/images")

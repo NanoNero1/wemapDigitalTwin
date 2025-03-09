@@ -1,0 +1,147 @@
+# Working command!:
+
+docker run --gpus all -v C:\Users\Dimitri\Documents\wemap\code\testArea\wemap-office-v1-20241107T062547Z-001\wemap-office-v1 -v /home/Dimitri/.cache/:/home/user/.cache/ -p 7007:7007 --rm -it --shm-size=12gb sha256:c513afd4c39928e67ed9ab8079ec456f422f724a4b46e4b26ead7d0d69b239af
+
+# dis one wurks
+docker run --gpus all -v C:\Users\Dimitri\Documents\wemap\code\separate\ratp-gambetta-sample-v2-20250122T020119Z-001\ratp-gambetta-sample-v2:/workspace/ -v /home/Dimitri/.cache/:/home/user/.cache/ -p 7007:7007 --rm -it --shm-size=12gb sha256:c513afd4c39928e67ed9ab8079ec456f422f724a4b46e4b26ead7d0d69b239af
+
+docker run --gpus all -v C:\Users\Dimitri\Documents\wemap\code\testArea\wemap-office-v1-20241107T062547Z-001\wemap-office-v1:/workspace/ -v /home/Dimitri/.cache/:/home/user/.cache/ -p 7007:7007 --rm -it --shm-size=12gb sha256:c513afd4c39928e67ed9ab8079ec456f422f724a4b46e4b26ead7d0d69b239af
+
+
+docker run --gpus all -v C:\Users\Dimitri\Documents\wemap\code\separate\wemap-office-one-room-v1-20241217T122808Z-001\wemap-office-one-room-v1:/workspace/ -v /home/Dimitri/.cache/:/home/user/.cache/ -p 7007:7007 --rm -it --shm-size=12gb sha256:c513afd4c39928e67ed9ab8079ec456f422f724a4b46e4b26ead7d0d69b239af
+
+
+:/workspace/
+
+# processo images
+ns-process-data images --data ./images --output-dir ./testImagesOutputNerf
+
+
+ns-train splatfacto-w-light --data [PATH] [dataparser]
+
+### THIS IS THE GOOD TRAINING COMMAND
+ns-train nerfacto --data ./hopeWorks --pipeline.model.camera-optimizer.mode off
+
+ns-train nerfacto --data ./hopeWorks --pipeline.datamanager.train-num-rays-per-batch 1024 --pipeline.datamanager.eval-num-rays-per-batch 1024 --pipeline.datamanager.train-num-images-to-sample-from 300 --pipeline.datamanager.eval-num-images-to-sample-from 300     --pipeline.model.camera-optimizer.mode off
+
+
+ns-train splatfacto --data ./hopeWorks --pipeline.model.camera-optimizer.mode off
+#### WORKINGK
+ns-process-data images --verbose --skip-colmap --colmap-model-path sparse/0 --num-downscales 4 --data ./images --output-dir ./hopeWorks
+
+ns-render camera-path --load-config outputs/hopeWorks/nerfacto/2024-11-25_141724/config.yml --camera-path-filename /workspace/hopeWorks/camera_paths/2024-11-25-14-17-56.json --output-path renders/hopeWorks/2024-11-25-14-17-56.mp4
+
+ns-export pointcloud --load-config outputs/hopeWorks/nerfacto/2024-11-25_141724/config.yml --output-dir exports/pcd/ --num-points 1000000 --remove-outliers True --normal-method open3d --save-world-frame False 
+
+ns-export poisson --load-config outputs/hopeWorks/nerfacto/2024-11-25_141724/config.yml --output-dir exports/mesh/ --target-num-faces 50000 --num-pixels-per-side 2048 --num-points 1000000 --remove-outliers True --normal-method open3d 
+
+
+!!!!!!!!!!!! the lucky stars
+
+
+
+### newstufffs
+ns-train depth-nerfacto --data ./hopeWorks --pipeline.model.camera-optimizer.mode off --pipeline.model.depth-loss-type SPARSENERF_RANKING
+
+!!! this is so that we have zoe-depth working
+pip install torch==2.0.1+cu118 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+
+python dn_splatter/scripts/align_depth.py --data C:\Users\Dimitri\Documents\wemap\code\separate\ratp-gambetta-sample-v2-20250122T020119Z-001\ratp-gambetta-sample-v2/hopeWorks --no-skip-colmap-to-depths --no-skip-mono-depth-creation
+
+ns-train dn-splatter --pipeline.model.use-depth-loss True --pipeline.model.depth-lambda 0.2 --data C:\Users\Dimitri\Documents\wemap\code\separate\ratp-gambetta-sample-v2-20250122T020119Z-001\ratp-gambetta-sample-v2\hopeWorks
+
+
+
+SHH COMMANDS:
+
+scp -i ai-vic-digital-twin.pem -r C:\Users\Dimitri\Documents\wemap\code\separate\station\ratp-opera-processed-v1\images.zip ec2-user@ec2-3-248-226-252.eu-west-1.compute.amazonaws.com:/home/ec2-user/wemap/largeScene/images
+
+ns-render camera-path --load-config outputs\hopeWorks\nerfacto\2025-02-12_013351\config.yml --camera-path-filename C:\Users\Dimitri\Documents\wemap\code\separate\station\ratp-opera-processed-v1\hopeWorks\camera_paths\2025-02-12-01-34-06.json --output-path renders/hopeWorks/2025-02-12-01-34-06.mp4
+
+
+SPLATTER STUFF:
+
+python dn_splatter/scripts/normals_from_pretrain.py --data-dir /home/ec2-user/wemap/largeScene/platter/hopeWorks --resolution low
+
+python dn_splatter/scripts/normals_from_pretrain.py --data-dir /home/ec2-user/wemap/largeScene/platter/hopeWorks --normal-format dsine
+
+
+
+python dn_splatter/scripts/align_depth.py --data /home/ec2-user/wemap/largeScene/platter/hopeWorks --skip-colmap-to-depths --no-skip-mono-depth-creation 
+
+ns-train dn-splatter --pipeline.model.use-depth-loss True  --pipeline.model.depth-lambda 0.2 normal-nerfstudio --data /home/ec2-user/wemap/largeScene/platter/hopeWorks
+
+ns-train dn-splatter --pipeline.model.use-depth-loss True --pipeline.model.depth-lambda 0.2 --pipeline.model.use-normal-loss True --pipeline.model.use-normal-tv-loss True --pipeline.model.normal-supervision mono normal-nerfstudio --data /home/ec2-user/wemap/largeScene/platter/hopeWorks
+
+VIEWER:
+ssh -i ai-vic-digital-twin.pem -L 50391:127.0.0.1:50391 ec2-user@ec2-3-248-226-252.eu-west-1.compute.amazonaws.com
+
+Ssh -i  ai-vic-digital-twin.pem -L 50391:localhost:50391 ec2-user@ec2-3-248-226-252.eu-west-1.compute.amazonaws.com
+
+
+ssh-L 50391:127.0.0.1:50391 ec2-user@ec2-3-248-226-252.eu-west-1.compute.amazonaws.com
+
+
+TO SEND:
+scp -i ai-vic-digital-twin.pem C:\Users\Dimitri\Documents\wemap\code\separate\station\ratp-opera-processed-v1\clipTransformPy.py ec2-user@ec2-3-248-226-252.eu-west-1.compute.amazonaws.com:/home/ec2-user/wemap/largeScene/platter/hopeWorks
+
+
+
+
+
+TO RECIEVE
+scp -i ai-vic-digital-twin.pem ec2-user@ec2-3-248-226-252.eu-west-1.compute.amazonaws.com:/home/ec2-user/outputs/ratp-gambetta-sample-v2/dn-splatter/2025-02-13_232115/nerfstudio_models/step-000029999.ckpt C:\Users\Dimitri\Documents\wemap\code\separate\
+
+
+##### MORE MORE
+
+ns-render camera-path --load-config outputs\hopeWorks\nerfacto\2025-02-21_022646\config.yml --camera-path-filename C:\Users\Dimitri\Documents\wemap\code\separate\station\ratp-opera-processed-v1\hopeWorks\camera_paths\2025-02-21-02-26-56.json --output-path renders/hopeWorks/2025-02-21-02-26-56.mp4
+
+ns-render camera-path --load-config outputs\hopeWorks\nerfacto\2025-02-21_022646\config.yml --camera-path-filename C:\Users\Dimitri\Documents\wemap\code\separate\station\ratp-opera-processed-v1\hopeWorks\camera_paths\2025-02-21-02-26-56.json --output-path renders/hopeWorks/2025-02-21-02-26-56.mp4
+
+ns-render camera-path --load-config outputs\hopeWorks\nerfacto\2025-03-03_004810\config.yml --camera-path-filename C:\Users\Dimitri\Documents\wemap\code\separate\station\ratp-opera-processed-v1\hopeWorks\camera_paths\2025-03-03-00-48-21.json --output-path renders/hopeWorks/2025-03-03-00-48-21.mp4
+
+ns-render camera-path --load-config outputs\hopeWorks\depth-nerfacto\2025-03-03_021224\config.yml --camera-path-filename C:\Users\Dimitri\Documents\wemap\code\separate\station\ratp-opera-processed-v1\hopeWorks\camera_paths\2025-03-03-02-19-13.json --output-path renders/hopeWorks/2025-03-03-02-19-13.mp4
+
+
+WANDB:
+ns-train nerfacto --vis viewer+wandb --data ./hopeWorks --pipeline.model.camera-optimizer.mode off
+
+EXPORT SPLATS:
+
+ns-export gaussian-splat --load-config /home/ec2-user/outputs/hopeWorks_complete/dn-splatter/2025-02-21_162957 config.yml --output-dir /home/ec2-user/outputs/hopeWorks_complete/dn-splatter/2025-02-21_162957/exports/splat
+
+ns-export gaussian-splat --load-config C:\Users\Dimitri\Documents\wemap\code\separate\ratp-gambetta-sample-v2-20250122T020119Z-001\ratp-gambetta-sample-v2\outputs\hopeWorks\splatfacto\2025-01-22_021454/config.yml --output-dir C:\Users\Dimitri\Documents\wemap\code\separate\ratp-gambetta-sample-v2-20250122T020119Z-001\ratp-gambetta-sample-v2\outputs\hopeWorks\splatfacto\2025-01-22_021454\exports\splat
+
+
+
+
+
+scp -i ai-vic-digital-twin.pem ec2-user@ec2-3-248-226-252.eu-west-1.compute.amazonaws.com:/home/ec2-user/outputs/hopeWorks_complete/dn-splatter/2025-02-21_162957/exports/splat/splat.ply C:\Users\Dimitri\Documents\wemap\code\separate\
+
+/home/ec2-user/outputs/ratp-gambetta-sample-v2/dn-splatter/2025-02-18_164510
+
+
+ns-render camera-path --load-config outputs\hopeWorks\nerfacto\2025-03-06_115207\config.yml --camera-path-filename C:\Users\Dimitri\Documents\wemap\code\separate\ratp-gambetta-split\ratp-gambetta-split\hopeWorks\camera_paths\2025-03-06-11-52-23.json --output-path renders/hopeWorks/2025-03-06-11-52-23.mp4
+
+Ns-render images I think actually
+
+
+
+
+
+06 03 commands
+
+ns-export gaussian-splat --load-config /home/ec2-user/outputs/hopeWorks_testgauss/dn-splatter/2025-03-04_195447/config.yml --output-dir /home/ec2-user/outputs/hopeWorks_testgauss/dn-splatter/2025-03-04_195447/splats
+
+scp -i ai-vic-digital-twin.pem ec2-user@ec2-3-248-226-252.eu-west-1.compute.amazonaws.com:/home/ec2-user/outputs/hopeWorks_testgauss/dn-splatter/2025-03-04_195447/splat.ply C:\Users\Dimitri\Documents\wemap\code\separate\splatDN.ply
+
+
+
+
+
+
+
+
+
+

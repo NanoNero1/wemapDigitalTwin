@@ -7,6 +7,7 @@ import shutil
 from splitTrainTest import splitData
 from utils import commandParse
 from renderTestImages import renderTestImages
+from getMaskedTransform import getMaskedTransform
 
 ########################################################### PRACTICAL FUNCTIONS
 
@@ -83,13 +84,40 @@ def processData(dataPath):
 def clipTransfom():
     pass
 
+def resetTransformJSON():
+    os.remove(f"digitalTwin/transforms.json")
+
+    # Save original train_transforms.json
+    shutil.copyfile(f"./digitalTwin/transform_jsons/transforms_train_og.json",
+                    f"digitalTwin/transforms.json")
+
 
 def trainModel(modelType):
 
-    if modelType == None or 'nerfacto-basic':
+    print(modelType)
+
+    if (modelType == None) or (modelType == 'nerfacto-basic'):
+
+        error
+        resetTransformJSON()
 
         # Run training command
-        trainCommand = f"ns-train nerfacto --data ./digitalTwin --pipeline.model.camera-optimizer.mode off" 
+        trainCommand = f"ns-train nerfacto --data ./digitalTwin --pipeline.model.camera-optimizer.mode off"
+    elif modelType == 'nerfacto-masked':
+
+        resetTransformJSON()
+
+        # TODO-transform
+        getMaskedTransform()
+
+
+        # Masked nerfacto is actually the same command
+        trainCommand = f"ns-train nerfacto --data ./digitalTwin --pipeline.model.camera-optimizer.mode off"
+
+
+
+        
+
 
 
     commandParse(trainCommand)
