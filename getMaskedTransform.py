@@ -1,5 +1,6 @@
 import json
 import copy
+import os
 
 
 def getMaskedTransform():
@@ -12,16 +13,17 @@ def getMaskedTransform():
 
     for i,f in enumerate(maskedData['frames']):
         frame_name = maskedData['frames'][i]["file_path"][-15:-4]
-        maskedData['frames'][i]["mask_path"] = f"./digitalTwin/masks/masks/{frame_name}_mask.jpeg" 
+        maskedData['frames'][i]["mask_path"] = f"./masks/masks/{frame_name}_mask.jpeg" 
 
     # Serializing json
     json_object = json.dumps(maskedData, indent=4)
 
     #print(maskedData['frames'][4])
     #error
+    #os.remove("transforms.json")
 
     # Writing to sample.json
-    with open(f"transforms.json", "w") as outfile:
+    with open(f"./digitalTwin/transforms.json", "w") as outfile:
         outfile.write(json_object)
 
     

@@ -16,6 +16,9 @@ import copy
 def renderTestImages(modelName):
 
     makeFolder("./digitalTwin/test_render")
+    makeFolder(f"./digitalTwin/test_render/nerfacto/")
+    makeFolder(f"./digitalTwin/test_render/{modelName}")
+    #error
     # The path
     #load_config = Path("C:/Users/Dimitri/Documents/wemap/code/separate/ratp-gambetta-split/ratp-gambetta-split/outputs/hopeWorks/nerfacto/2025-03-06_115207/config.yml")
     load_config = Path(f"./outputs/digitalTwin/{modelName}/config.yml")
@@ -170,7 +173,7 @@ def getRenderFromPose(pose,path,device,pipeline,idx,modelName):
     #output_image_path = os.path.join(output_dir, 'rendered_image.png')
     print(path[-15:-4])
     print()
-    save_path = f"./digitalTwin/test_render/{path[-15:-4]}_testRendernew.png"
+    save_path = f"./digitalTwin/test_render/{modelName}/{path[-15:-4]}_testRendernew.png"
     #error
     
     output_image_pil.save(save_path)
