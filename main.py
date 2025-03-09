@@ -102,10 +102,14 @@ def trainModel(modelType):
         trainCommand = f"ns-train nerfacto --data ./digitalTwin --pipeline.model.camera-optimizer.mode off"
     elif modelType == 'depth-nerfacto-inpainted':
 
-        # Switch Image folders
-        os.rename('./digitalTwin/images','./digitalTwin/images_train_original')
+        resetTransformJSON()
 
-        os.rename('./digitalTwin/images_inpainted','./digitalTwin/images')
+        # Switch Image folders
+        if not os.path.isdir('./digitalTwin/images_train_original'):
+            os.rename('./digitalTwin/images','./digitalTwin/images_train_original')
+            os.rename('./digitalTwin/images_inpainted','./digitalTwin/images')
+
+        trainCommand = "ns-train depth-nerfacto --data ./digitalTwin --pipeline.model.camera-optimizer.mode off --pipeline.model.depth-loss-type SPARSENERF_RANKING"
     else:
         print("Training method not found, please choose between: nerfacto-basic,nerfacto-masked,depth-nerfacto-inpainted")
 
