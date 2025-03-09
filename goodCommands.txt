@@ -1,0 +1,5 @@
+Train nerfacto:
+ns-train nerfacto --data ./hopeWorks --pipeline.model.camera-optimizer.mode off
+
+Train depth-nerfacto:
+ns-train depth-nerfacto --data ./hopeWorks --pipeline.model.camera-optimizer.mode off --pipeline.model.depth-loss-type SPARSENERF_RANKING

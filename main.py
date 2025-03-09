@@ -70,10 +70,10 @@ def resetTransformJSON():
                     f"digitalTwin/transforms.json")
     
 def resetImageFolder():
-    if os.path.isdir('./digitalTwin/images_original'):
+    if os.path.isdir('./digitalTwin/images_train_original'):
         # Switch Image folders
         os.rename('./digitalTwin/images','./digitalTwin/images_inpainted')
-        os.rename('./digitalTwin/images_original','./digitalTwin/images')
+        os.rename('./digitalTwin/images_train_original','./digitalTwin/images')
 
 
 
@@ -103,7 +103,7 @@ def trainModel(modelType):
     elif modelType == 'depth-nerfacto-inpainted':
 
         # Switch Image folders
-        os.rename('./digitalTwin/images','./digitalTwin/images_original')
+        os.rename('./digitalTwin/images','./digitalTwin/images_train_original')
 
         os.rename('./digitalTwin/images_inpainted','./digitalTwin/images')
     else:
