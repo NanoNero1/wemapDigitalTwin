@@ -17,6 +17,7 @@ def renderTestImages(modelName):
 
     makeFolder("./digitalTwin/test_render")
     makeFolder(f"./digitalTwin/test_render/nerfacto/")
+    makeFolder(f"./digitalTwin/test_render/depth-nerfacto/")
     makeFolder(f"./digitalTwin/test_render/{modelName}")
     #error
     # The path

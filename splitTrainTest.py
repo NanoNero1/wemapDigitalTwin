@@ -15,7 +15,7 @@ def splitData():
     # Making necessary folders
 
     if os.path.exists("./digitalTwin/test_folder"):
-        print(" \n Already split into training/test data. To re-do the split please TODO \n")
+        print(" \n Already split into training/test data. To re-do the split please remove the folders")
         return
 
     makeFolder("./digitalTwin/test_folder")
@@ -36,6 +36,11 @@ def splitData():
     # Sort the frames by order they are taken in
     sortFrames = sorted(data['frames'], key=lambda x: x["file_path"], reverse=False)
 
+    #for f in sortFrames[:20]:
+    #    print(f['file_path'])
+    #    print(f['transform_matrix'])
+    #print(sortFrames[:20])
+    #error
 
     posesPerImg = 12
     totalFrames = len(sortFrames)
@@ -48,6 +53,9 @@ def splitData():
     trainDict['frames'] = []
 
     for imgIdx in range(int(totalFrames / posesPerImg)):
+
+
+        print(imgIdx)
         
         # Randomly sample a frame from one 360 image
         testIndex = random.randint(0,posesPerImg)

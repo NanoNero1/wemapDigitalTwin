@@ -19,8 +19,15 @@ python main.py C:\Users\Dimitri\Documents\wemap\pipeline\pipelineData\wemap-offi
 
 
 
-### Known Problems:
-- sometimes you can run out of memory so it's best to run this alone and close other applications
+### Developer Notes for troubleshooting common issues:
+
+- When there is an error (especially if it's a memory error) it's worth it to re-run the script and sometimes it works on the second or third try.
+
+- To help with avoiding running out of memory it's best to run this script alone and close all other applications
+
+- Actually nerfstudio uses different coordinates than colmap. It also swaps the axes around like (x,-z,y). TODO
+
+
 
 
 
