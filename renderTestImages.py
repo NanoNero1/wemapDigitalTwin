@@ -42,37 +42,6 @@ def renderTestImages(modelName):
         "cy": 360.0,
     """
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-
-    file_path = "images/frame_00237.png"
-    
-    #! maybe it's the wrong type of matrix?
-    transform_matrix = [
-                    [
-                        -0.2714771797283373,
-                        0.16060999804562984,
-                        -0.9489491922197578,
-                        0.017548072811172644
-                    ],
-                    [
-                        -0.960328538314223,
-                        0.020146637017384877,
-                        0.2781424302693817,
-                        0.08782567456780599
-                    ],
-                    [
-                        0.06379059010556412,
-                        0.9868123132311801,
-                        0.1487690124633197,
-                        0.005655566625667207
-                    ],
-                    [
-                        0.0,
-                        0.0,
-                        0.0,
-                        1.0
-                    ]
-                ]
     
     # Open and read the JSON file
     with open('./digitalTwin/test_folder/test_transforms.json', 'r') as file:
@@ -83,22 +52,8 @@ def renderTestImages(modelName):
     for idx,f in enumerate(data['frames']):
         getRenderFromPose(f['transform_matrix'],f['file_path'],device,pipeline,idx,modelName)
 
-    print('IT WORKEDDD')
-
 
 def getRenderFromPose(pose,path,device,pipeline,idx,modelName):
-
-    ### NEED TO RE-STRUCTURE THIS
-    #camera_to_worlds = torch.tensor([[0.1576458912421872, 0.001432504239621657, 0.9874946687988042, -0.1502362906932832], 
-    #                             [ 0.98749570137543, -0.00011438947221609208, -0.1576458901465443, 3.7798531274000803], 
-    #                             [-0.00011286941201377187, 0.9999989674227929, -0.0014326248091246496, -0.007071613542939272]
-    #                             ]).to(device)
-
-
-    #camera_toF_worlds = torch.tensor(np.array(pose[:-1])).to(device)
-
-
-    #pose = [[0.0, 0.0, 0.0, 0.0],[0.0, 0.0, 0.0, 0.0],[float(idx),0.0, 0.0, 0.0],[0.0, 0.0, 0.0, 1.0]]
 
     swapAxes = np.array([[1.0, 0.0, 0.0, 0.0],
                          [0.0, 0.0, -1.0, 0.0],
@@ -113,40 +68,11 @@ def getRenderFromPose(pose,path,device,pipeline,idx,modelName):
     dataMatrix = np.array(dataTransform['transform'])
     dataScale = np.array(dataTransform['scale'])
 
-
-    #pose = np.array(pose)[]
-
-    #print(dataMatrix)
-    #print(pose)
-    #error
-    #pose = dataMatrix[:,:3] @ (pose + dataMatrix[:,3])
-    #print(o)
-    #pose = pose * dataScale
-
-    #camera_to_worlds = torch.tensor(  np.array(pose[:-1]) ) .to(device)
-    #camera_to_worlds=pose[:-1,:]
-
     pose = swapAxes @ pose
     pose = dataMatrix @ pose
     pose[:3,3] *= dataScale
 
-    #pose[:3,:3] = pose[:3,:3].T
-    #pose[:3,3] =  -1*pose[:3,3] 
-
-    #print('laaaaaaaaaaaaaaaa')
-    #print(pose.shape)
-    #print(pose)
-    #error
     camera_to_worlds=torch.tensor(pose).to(device)
-
-    #print(camera_to_worlds.shape)
-    #placeHolder = copy.deepcopy(camera_to_worlds[:,2])
-    #camera_to_worlds[:,2] = camera_to_worlds[:,1]
-    #camera_to_worlds[:,1] = placeHolder
-
-    #print(camera_to_worlds)
-
-    #print(camera_to_worlds.shape)
     
     # Create Cameras instance, define your camera intrinsics 
     cameras = Cameras(
