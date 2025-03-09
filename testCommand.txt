@@ -8,3 +8,7 @@ python main.py process C:\Users\Dimitri\Documents\wemap\pipeline\pipelineData\ra
 python main.py eval C:\Users\Dimitri\Documents\wemap\pipeline\pipelineData\ratp-gambetta-pipeline\ratp-gambetta-sample-v2 --modelName nerfacto/2025-03-08_200149
 
 python main.py train C:\Users\Dimitri\Documents\wemap\pipeline\pipelineData\ratp-gambetta-pipeline\ratp-gambetta-sample-v2 --modelType nerfacto-masked
+
+
+
+python main.py process C:\Users\Dimitri\Documents\wemap\pipeline\pipelineData\wemap-office-one-room-pipeline\wemap-office-one-room-v1
