@@ -27,6 +27,8 @@ python main.py C:\Users\Dimitri\Documents\wemap\pipeline\pipelineData\wemap-offi
 
 - Actually nerfstudio uses different coordinates than colmap. It also swaps the axes around like (x,-z,y). TODO
 
+- for the ns-viewer command, you have to run in inside the digitalTwin folder
+
 
 
 

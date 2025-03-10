@@ -4,8 +4,9 @@ import argparse
 import os
 import subprocess
 import shutil
+import json
 from splitTrainTest import splitData
-from utils import commandParse
+from utils import commandParse, imageRangeTransform
 from renderTestImages import renderTestImages
 from getMaskedTransform import getMaskedTransform
 
@@ -17,6 +18,11 @@ def main(args):
     # Variables
     actions = args.actions.split(',')
     dataPath = args.dataPath
+    imageRange = args.imageRange
+
+    #print(imageRange)
+    #error
+
     myOS = "windows"
     myPath = os.getcwd()
 
@@ -31,7 +37,7 @@ def main(args):
         splitData()
 
     if 'train' in actions:
-        trainModel(args.modelType)
+        trainModel(args.modelType,imageRange)
 
     if 'eval' in actions:
         renderTestImages(args.modelName)
@@ -76,11 +82,12 @@ def resetImageFolder():
         os.rename('./digitalTwin/images_train_original','./digitalTwin/images')
 
 
-
-
-def trainModel(modelType):
+def trainModel(modelType,imageRange=None):
 
     print(modelType)
+
+
+    print()
 
     if (modelType == None) or (modelType == 'nerfacto-basic'):
 
@@ -112,6 +119,19 @@ def trainModel(modelType):
         trainCommand = "ns-train depth-nerfacto --data ./digitalTwin --pipeline.model.camera-optimizer.mode off --pipeline.model.depth-loss-type SPARSENERF_RANKING"
     else:
         print("Training method not found, please choose between: nerfacto-basic,nerfacto-masked,depth-nerfacto-inpainted")
+
+    if imageRange != None:
+        imageRangeTransform(imageRange)
+        
+    #error
+
+    # Open and read the JSON file
+    with open('./digitalTwin/transform_jsons/transforms_train_og.json', 'r') as file:
+        checkSize = json.load(file)
+
+    if (len(checkSize['frames']) > 500) and imageRange == None:
+        print("Image dataset too big to run at once, please provide an image range, e.g. --imageRange 2700,3000")
+        erorr
 
     commandParse(trainCommand)
 
@@ -148,6 +168,8 @@ if __name__ == '__main__':
     parser.add_argument("--modelType", help="The type of model to train: nerfacto-basic,nerfacto-masked,depth-nerfacto-inpainted")
 
     parser.add_argument("--modelName", help="Name of the model in the outputs/digitalTwin/ folder. E.g. nerfacto/2025-03-08_200149")
+
+    parser.add_argument("--imageRange", help="Which images are")
 
     args = parser.parse_args()
 

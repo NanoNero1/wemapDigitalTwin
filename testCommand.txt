@@ -16,3 +16,11 @@ python main.py process C:\Users\Dimitri\Documents\wemap\pipeline\pipelineData\we
 python main.py train C:\Users\Dimitri\Documents\wemap\pipeline\pipelineData\wemap-office-one-room-pipeline\wemap-office-one-room-v1 --modelType nerfacto-basic
 
 python main.py eval C:\Users\Dimitri\Documents\wemap\pipeline\pipelineData\wemap-office-one-room-pipeline\wemap-office-one-room-v1 --modelName nerfacto\2025-03-09_180751
+
+# Opera
+
+python main.py train C:\Users\Dimitri\Documents\wemap\pipeline\pipelineData\ratp-opera-pipeline\ratp-opera-v1 --modelType nerfacto-basic --imageRange 2700,3000
+
+python main.py eval C:\Users\Dimitri\Documents\wemap\pipeline\pipelineData\ratp-opera-pipeline\ratp-opera-v1 --modelName nerfacto\2025-03-09_180751
+
+ns-viewer --load-config C:\Users\Dimitri\Documents\wemap\pipeline\pipelineData\ratp-opera-pipeline\ratp-opera-v1\outputs\digitalTwin\nerfacto\2025-03-10_015646\config.yml
