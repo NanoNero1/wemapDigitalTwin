@@ -104,6 +104,8 @@ def trainModel(modelType,imageRange=None):
         # add the masks to the transform
         getMaskedTransform()
 
+        #error
+
 
         # Masked nerfacto is actually the same command
         trainCommand = f"ns-train nerfacto --data ./digitalTwin --pipeline.model.camera-optimizer.mode off"
@@ -117,6 +119,15 @@ def trainModel(modelType,imageRange=None):
             os.rename('./digitalTwin/images_inpainted','./digitalTwin/images')
 
         trainCommand = "ns-train depth-nerfacto --data ./digitalTwin --pipeline.model.camera-optimizer.mode off --pipeline.model.depth-loss-type SPARSENERF_RANKING"
+    elif modelType == 'splatfacto-basic':
+        resetTransformJSON()
+        resetImageFolder()
+        # TODO splatfacto-masked!
+
+        print('')
+        error
+        trainCommand = "ns-train splatfacto --data ./digitalTwin --pipeline.model.camera-optimizer.mode off"
+
     else:
         print("Training method not found, please choose between: nerfacto-basic,nerfacto-masked,depth-nerfacto-inpainted")
 
@@ -132,6 +143,8 @@ def trainModel(modelType,imageRange=None):
     if (len(checkSize['frames']) > 500) and imageRange == None:
         print("Image dataset too big to run at once, please provide an image range, e.g. --imageRange 2700,3000")
         erorr
+
+    #error
 
     commandParse(trainCommand)
 

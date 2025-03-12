@@ -27,7 +27,7 @@ def imageRangeTransform(imageRange):
     maxImg = int(rangeList[1])
 
     # Open and read the JSON file
-    with open('./digitalTwin/transform_jsons/transforms_train_og.json', 'r') as file:
+    with open('./digitalTwin/transforms.json', 'r') as file:
         data = json.load(file)
 
     allFrames = copy.deepcopy(data['frames'])

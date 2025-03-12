@@ -20,10 +20,11 @@ def getMaskedTransform():
 
     #print(maskedData['frames'][4])
     #error
-    #os.remove("transforms.json")
+    #os.remove("./transforms.json")
 
     # Writing to sample.json
     with open(f"./digitalTwin/transforms.json", "w") as outfile:
+        #json.dump(maskedData, f, indent=4)
         outfile.write(json_object)
 
     
